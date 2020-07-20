@@ -1,0 +1,1 @@
+# Sports Activity Manager Client Library
