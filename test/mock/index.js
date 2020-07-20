@@ -31,15 +31,17 @@ const mockRequests = () => {
     .reply(201);
 
   mockedData.forEach(item => {
+    const temp = { ...item };
     // get activity
     mockedAxios
       .onGet(`${config.api_url}/activities/${item['_id']}`)
-      .reply(200, { activity: item });
+      .reply(200, { activity: temp });
     // modify activity
+    temp.name = `${item.name} (modified)`;
     mockedAxios
       .onPut(
-        `/activities/${item['_id']}`,
-        { activity: item }
+        `${config.api_url}/activities/${item['_id']}`,
+        { activity: temp }
       )
       .reply(204);
     // delete activity

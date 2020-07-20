@@ -45,7 +45,15 @@ class SamClient {
   }
 
   async modifyActivity(activityID, activityDetails) {
-
+    console.log(activityDetails)
+    const response = await axios.put(
+      `${this.url}/activities/${activityID}`,
+      { activity: activityDetails }
+    );
+    if (response) {
+      return true;
+    }
+    return false;
   }
 
   async deleteActivity(activityID) {

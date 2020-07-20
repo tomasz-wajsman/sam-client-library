@@ -45,4 +45,13 @@ describe('Client tests', () => {
       assert.notEqual(activity.end_date, undefined, 'No end date received');
     }
   });
+  test('Modifies the activities', async () => {
+    const mockedActivities = await client.getActivities();
+    for (let i = 0; i < mockedActivities.length; i++) {
+      const activity = mockedActivities[i];
+      activity.name += ' (modified)';
+      const response = await client.modifyActivity(activity['_id'], activity);
+      assert.equal(response, true, 'Activity was not modified');
+    }
+  });
 });
