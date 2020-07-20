@@ -46,41 +46,49 @@ class SamClient {
   }
 
   async getActivity(activityID) {
-    const response = await axios.get(`${this.url}/activities/${activityID}`);
-    if (response.status === 200) {
-      return response.data.activity;
+    if (SamClient.checkActivityID(activityID)) {
+      const response = await axios.get(`${this.url}/activities/${activityID}`);
+      if (response.status === 200) {
+        return response.data.activity;
+      }
     }
     return false;
   }
 
   async createActivity(activityDetails) {
-    const response = await axios.post(
-      `${this.url}/activities`,
-      { activity: activityDetails }
-    );
-    if (response.status === 201) {
-      return true;
+    if (SamClient.checkActivityDetails(activityDetails)) {
+      const response = await axios.post(
+        `${this.url}/activities`,
+        { activity: activityDetails }
+      );
+      if (response.status === 201) {
+        return true;
+      }
     }
     return false;
   }
 
   async modifyActivity(activityID, activityDetails) {
-    const response = await axios.put(
-      `${this.url}/activities/${activityID}`,
-      { activity: activityDetails }
-    );
-    if (response.status === 204) {
-      return true;
+    if (SamClient.checkActivityID(activityID) && SamClient.checkActivityDetails(activityDetails)) {
+      const response = await axios.put(
+        `${this.url}/activities/${activityID}`,
+        { activity: activityDetails }
+      );
+      if (response.status === 204) {
+        return true;
+      }
     }
     return false;
   }
 
   async deleteActivity(activityID) {
-    const response = await axios.delete(
-      `${this.url}/activities/${activityID}`
-    );
-    if (response.status === 204) {
-      return true;
+    if (SamClient.checkActivityID(activityID)) {
+      const response = await axios.delete(
+        `${this.url}/activities/${activityID}`
+      );
+      if (response.status === 204) {
+        return true;
+      }
     }
     return false;
   }
