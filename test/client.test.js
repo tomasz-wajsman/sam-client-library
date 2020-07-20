@@ -29,4 +29,9 @@ describe('Client tests', () => {
     assert.equal(Array.isArray(activities), true, 'Activities array was not received');
     assert.deepEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
   });
+  test('Gets the activities list after adding them', async () => {
+    const activities = await client.getActivities();
+    assert.equal(Array.isArray(activities), true, 'Activities array was not received');
+    assert.deepStrictEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
+  });
 });
