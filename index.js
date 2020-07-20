@@ -19,7 +19,26 @@ class SamClient {
   }
 
   static checkActivityDetails(activityDetails) {
+    console.log(activityDetails)
+    const name = activityDetails.name;
+    const category = activityDetails.category;
+    const startDate = activityDetails.start_date;
+    const endDate = activityDetails.end_date;
+    const distance = activityDetails.distance;
 
+    if (
+      !name || name === '' // activity name
+      || !category || category === '' // activity category
+      || !startDate || Number.parseInt(startDate, 10) < 0 // start date
+      || !endDate || Number.parseInt(endDate, 10) < 0 // start date
+      || Date.parse(startDate) >= Date.parse(endDate) // date order
+      || (distance && (
+        Number.isNaN(Number.parseFloat(distance))
+          || distance < 0))
+    ) {
+      return false;
+    }
+    return true;
   }
 
   async getActivities() {

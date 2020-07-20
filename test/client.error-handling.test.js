@@ -43,6 +43,13 @@ describe('Client error handling tests', () => {
       `Incorrect ID '${id}' is correct`
     ));
   });
+  test('Returns false on incorrect activities', async () => {
+    invalidActivities.forEach(activity => assert.equal(
+      SamClient.checkActivityDetails(activity.activity),
+      false,
+      'Incorrect activity is correct'
+    ));
+  });
   test('Throws an error for getting unexisting activity', async () => {
     try {
       await client.getActivity('123456');
