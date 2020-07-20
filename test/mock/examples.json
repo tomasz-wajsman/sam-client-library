@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Football match",
+    "category": "football",
+    "start_date": 125,
+    "end_date": 130
+  },
+  {
+    "name": "Cross-country skiing",
+    "category": "winter sports",
+    "start_date": 125,
+    "end_date": 130,
+    "distance": 10000
+  },
+  {
+    "name": "My Trip to Katowice",
+    "category": "cycling",
+    "start_date": 125,
+    "end_date": 130,
+    "distance": 100000
+  }
+]
