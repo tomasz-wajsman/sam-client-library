@@ -1,5 +1,4 @@
 const assert = require('assert');
-const expect = require('expect');
 
 const config = require('./config.json');
 
