@@ -72,4 +72,9 @@ describe('Client tests', () => {
       mock.deleteActivity(activity['_id']);
     }
   });
+  test('Check the activities list after deleting them', async () => {
+    const activities = await client.getActivities();
+    assert.equal(Array.isArray(activities), true, 'Activities array was not received');
+    assert.deepStrictEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
+  });
 });
