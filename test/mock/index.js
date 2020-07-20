@@ -33,19 +33,14 @@ const mockRequests = () => {
   mockedData.forEach(item => {
     // get activity
     mockedAxios
-      .onGet(`/activities/${item['_id']}`)
+      .onGet(`${config.api_url}/activities/${item['_id']}`)
       .reply(200, { activity: item });
     // modify activity
     mockedAxios
-      .onPut(`/activities/${item['_id']}`)
-      .body({
-        activity: {
-          name: `${item.name} (modified)`,
-          category: item.name,
-          start_date: item.start_date,
-          end_date: item.end_date
-        }
-      })
+      .onPut(
+        `/activities/${item['_id']}`,
+        { activity: item }
+      )
       .reply(204);
     // delete activity
     mockedAxios
@@ -54,12 +49,26 @@ const mockRequests = () => {
   });
 };
 
+const getRandomID = () => {
+  let id = '';
+  const characters = '0123456789abcdef';
+  for (let i = 0; i < 24; i++) {
+    const pos = Math.floor(Math.random() * characters.length);
+    id += characters[pos];
+  }
+  return id;
+};
+
 const findActivityIndex = activity => mockedData.findIndex(a => a['_id'] === activity['_id']);
 const findActivityIndexByID = activity => mockedData.findIndex(a => a['_id'] === activity['_id']);
 
 const getActivities = () => mockedData;
 const getActivity = activityID => mockedData.find(a => a['_id'] === activityID);
-const addActivity = activity => mockedData.push(activity);
+const addActivity = activity => {
+  const details = activity;
+  details['_id'] = getRandomID();
+  mockedData.push(details);
+};
 const modifyActivity = activity => {
   mockedData[findActivityIndex(activity)] = activity;
 };
