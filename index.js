@@ -3,6 +3,10 @@ const axios = require('axios');
 require('./config.js').configure();
 
 class SamClient {
+  constructor(apiUrl) {
+    this.url = apiUrl;
+  }
+
   static checkDetails(activityDetails) {
 
   }
@@ -20,7 +24,8 @@ class SamClient {
   }
 
   async getActivities() {
-
+    const response = await axios.get(`${this.url}/activities`);
+    return response.data.activities;
   }
 
   async getActivity(activityID) {
