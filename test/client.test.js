@@ -9,7 +9,7 @@ const mock = require('./mock');
 const data = require('./mock/examples.json');
 
 describe('Client tests', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     client = new SamClient(config.api_url);
     mock.mockRequests();
   });
@@ -33,5 +33,16 @@ describe('Client tests', () => {
     const activities = await client.getActivities();
     assert.equal(Array.isArray(activities), true, 'Activities array was not received');
     assert.deepStrictEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
+  });
+  test('Returns single activities', async () => {
+    const mockedActivities = mock.getActivities();
+    for (let i = 0; i < mockedActivities.length; i++) {
+      const activity = await client.getActivity(mockedActivities[i]['_id']);
+      assert.notEqual(activity, undefined, 'No activity received');
+      assert.notEqual(activity.name, undefined, 'No activity name received');
+      assert.notEqual(activity.category, undefined, 'No activity category received');
+      assert.notEqual(activity.start_date, undefined, 'No start date received');
+      assert.notEqual(activity.end_date, undefined, 'No end date received');
+    }
   });
 });
