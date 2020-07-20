@@ -1,15 +1,51 @@
-const mock = [];
+// Axios mock
+const axios = require('axios');
+const MockAdapter = require('axios-mock-adapter');
+const mockedAxios = new MockAdapter(axios);
 
-const findActivityIndex = activity => mock.findIndex(a => a['_id'] === activity['_id']);
-const findActivityIndexByID = activity => mock.findIndex(a => a['_id'] === activity['_id']);
+const activities = [];
 
-const getActivities = () => mock;
-const getActivity = activityID => mock.find(a => a['_id'] === activityID);
-const addActivity = activity => mock.push(activity);
-const modifyActivity = activity => {
-  mock[findActivityIndex(activity)] = activity;
+const mockRequests = items => {
+  // reset the mock and the mock the requests again
+  mockedAxios.reset();
+
+  // all activities
+  mockedAxios.onGet('/activities')
+    .reply(200, { activities: items });
+
+  // add an activity
+  mockedAxios.onPost('/activities')
+    .reply(201);
+
+  items.forEach(item => {
+    // get activity
+    mockedAxios.onGet(`/activities/${item['_id']}`)
+      .reply(200, { activity: item });
+    // modify activity
+    mockedAxios.onPut(`/activities/${item['_id']}`)
+      .body({
+        name: `${item.name} (modified)`,
+        category: item.name,
+        start_date: item.start_date,
+        end_date: item.end_date
+      })
+      .reply(204);
+    // delete activity
+    mockedAxios.onDelete(`/activities/${item['_id']}`)
+      .reply(204);
+  });
 };
-const deleteActivity = activityID => mock.splice(findActivityIndexByID(activityID), 1);
+
+const findActivityIndex = activity => activities.findIndex(a => a['_id'] === activity['_id']);
+const findActivityIndexByID = activity => activities.findIndex(a => a['_id'] === activity['_id']);
+
+const getActivities = () => activities;
+const getActivity = activityID => activities.find(a => a['_id'] === activityID);
+const addActivity = activity => activities.push(activity);
+const modifyActivity = activity => {
+  activities[findActivityIndex(activity)] = activity;
+};
+const deleteActivity = activityID => activities.splice(findActivityIndexByID(activityID), 1);
 
 module.exports = {
   findActivityIndex,
@@ -18,5 +54,6 @@ module.exports = {
   getActivity,
   addActivity,
   modifyActivity,
-  deleteActivity
+  deleteActivity,
+  mockRequests
 };
