@@ -33,7 +33,14 @@ class SamClient {
   }
 
   async createActivity(activityDetails) {
-
+    const response = await axios.post(
+      `${this.url}/activities`,
+      { activity: activityDetails }
+    );
+    if (response) {
+      return true;
+    }
+    return false;
   }
 
   async modifyActivity(activityID, activityDetails) {
