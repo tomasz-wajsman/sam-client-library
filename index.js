@@ -7,6 +7,21 @@ class SamClient {
     this.url = apiUrl;
   }
 
+  static checkActivityID(activityID) {
+    const regex = new RegExp(/([0-9a-f]){23}\w+/);
+    if (activityID
+      && typeof activityID === 'string'
+      && regex.test(activityID)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  static checkActivityDetails(activityDetails) {
+
+  }
+
   async getActivities() {
     const response = await axios.get(`${this.url}/activities`);
     return response.data.activities;
@@ -14,7 +29,10 @@ class SamClient {
 
   async getActivity(activityID) {
     const response = await axios.get(`${this.url}/activities/${activityID}`);
-    return response.data.activity;
+    if (response.status === 200) {
+      return response.data.activity;
+    }
+    return false;
   }
 
   async createActivity(activityDetails) {
@@ -22,7 +40,7 @@ class SamClient {
       `${this.url}/activities`,
       { activity: activityDetails }
     );
-    if (response) {
+    if (response.status === 201) {
       return true;
     }
     return false;
@@ -33,7 +51,7 @@ class SamClient {
       `${this.url}/activities/${activityID}`,
       { activity: activityDetails }
     );
-    if (response) {
+    if (response.status === 204) {
       return true;
     }
     return false;
@@ -43,7 +61,7 @@ class SamClient {
     const response = await axios.delete(
       `${this.url}/activities/${activityID}`
     );
-    if (response) {
+    if (response.status === 204) {
       return true;
     }
     return false;
