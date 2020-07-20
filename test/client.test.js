@@ -23,13 +23,14 @@ describe('Client tests', () => {
       const item = data[i];
       const response = await client.createActivity(item);
       assert.equal(response, true, 'The activity was not inserted');
+      // modify in mock
       mock.addActivity(item);
     }
     const activities = await client.getActivities();
     assert.equal(Array.isArray(activities), true, 'Activities array was not received');
     assert.deepEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
   });
-  test('Gets the activities list after adding them', async () => {
+  test('Check the activities list after adding them', async () => {
     const activities = await client.getActivities();
     assert.equal(Array.isArray(activities), true, 'Activities array was not received');
     assert.deepStrictEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
@@ -52,6 +53,13 @@ describe('Client tests', () => {
       activity.name += ' (modified)';
       const response = await client.modifyActivity(activity['_id'], activity);
       assert.equal(response, true, 'Activity was not modified');
+      // modify in mock
+      mock.modifyActivity(activity);
     }
+  });
+  test('Check the activities list after modifying them', async () => {
+    const activities = await client.getActivities();
+    assert.equal(Array.isArray(activities), true, 'Activities array was not received');
+    assert.deepStrictEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
   });
 });
