@@ -4,6 +4,7 @@ const MockAdapter = require('axios-mock-adapter');
 const mockedAxios = new MockAdapter(axios);
 
 const config = require('../config.json');
+const examples = require('./examples.json');
 
 const mockedData = [];
 
@@ -12,28 +13,43 @@ const mockRequests = () => {
   mockedAxios.reset();
 
   // all activities
-  mockedAxios.onGet(`${config.api_url}/activities`)
+  mockedAxios
+    .onGet(`${config.api_url}/activities`)
     .reply(200, { activities: mockedData });
 
   // add an activity
-  mockedAxios.onPost('/activities')
+  examples.forEach(example => {
+    mockedAxios
+      .onPost(
+        `${config.api_url}/activities`,
+        { activity: example }
+      )
+      .reply(201);
+  });
+  mockedAxios
+    .onPost('/activities')
     .reply(201);
 
   mockedData.forEach(item => {
     // get activity
-    mockedAxios.onGet(`/activities/${item['_id']}`)
+    mockedAxios
+      .onGet(`/activities/${item['_id']}`)
       .reply(200, { activity: item });
     // modify activity
-    mockedAxios.onPut(`/activities/${item['_id']}`)
+    mockedAxios
+      .onPut(`/activities/${item['_id']}`)
       .body({
-        name: `${item.name} (modified)`,
-        category: item.name,
-        start_date: item.start_date,
-        end_date: item.end_date
+        activity: {
+          name: `${item.name} (modified)`,
+          category: item.name,
+          start_date: item.start_date,
+          end_date: item.end_date
+        }
       })
       .reply(204);
     // delete activity
-    mockedAxios.onDelete(`/activities/${item['_id']}`)
+    mockedAxios
+      .onDelete(`/activities/${item['_id']}`)
       .reply(204);
   });
 };
