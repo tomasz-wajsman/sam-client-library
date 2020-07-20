@@ -29,7 +29,8 @@ class SamClient {
   }
 
   async getActivity(activityID) {
-
+    const response = await axios.get(`${this.url}/activities/${activityID}`);
+    return response.data.activity;
   }
 
   async createActivity(activityDetails) {
