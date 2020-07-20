@@ -1,0 +1,31 @@
+{
+  "name": "sam-client-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasz-wajsman/sam-client-library.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomasz-wajsman/sam-client-library/issues"
+  },
+  "homepage": "https://github.com/tomasz-wajsman/sam-client-library#readme",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "axios": "^0.19.2",
+    "axios-mock-adapter": "^1.18.2",
+    "expect": "^26.1.0",
+    "jest": "^26.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  }
+}
