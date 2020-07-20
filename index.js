@@ -56,7 +56,13 @@ class SamClient {
   }
 
   async deleteActivity(activityID) {
-
+    const response = await axios.delete(
+      `${this.url}/activities/${activityID}`
+    );
+    if (response) {
+      return true;
+    }
+    return false;
   }
 }
 module.exports = SamClient;

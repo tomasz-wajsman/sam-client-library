@@ -62,4 +62,14 @@ describe('Client tests', () => {
     assert.equal(Array.isArray(activities), true, 'Activities array was not received');
     assert.deepStrictEqual(activities, mock.getActivities(), 'Incorrect content of received activities array');
   });
+  test('Deletes the activities', async () => {
+    const mockedActivities = await client.getActivities();
+    for (let i = 0; i < mockedActivities.length; i++) {
+      const activity = mockedActivities[i];
+      const response = await client.deleteActivity(activity['_id']);
+      assert.equal(response, true, 'Activity was not deleted');
+      // modify in mock
+      mock.deleteActivity(activity['_id']);
+    }
+  });
 });

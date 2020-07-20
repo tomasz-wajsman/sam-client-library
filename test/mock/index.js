@@ -46,7 +46,7 @@ const mockRequests = () => {
       .reply(204);
     // delete activity
     mockedAxios
-      .onDelete(`/activities/${item['_id']}`)
+      .onDelete(`${config.api_url}/activities/${item['_id']}`)
       .reply(204);
   });
 };
@@ -62,10 +62,10 @@ const getRandomID = () => {
 };
 
 const findActivityIndex = activity => mockedData.findIndex(a => a['_id'] === activity['_id']);
-const findActivityIndexByID = activity => mockedData.findIndex(a => a['_id'] === activity['_id']);
+const findActivityIndexByID = activityID => mockedData.findIndex(a => a['_id'] === activityID);
 
 const getActivities = () => mockedData;
-const getActivity = activityID => mockedData.find(a => a['_id'] === activityID);
+const getActivity = activityID => mockedData[findActivityIndexByID(activityID)];
 const addActivity = activity => {
   const details = activity;
   details['_id'] = getRandomID();
@@ -74,7 +74,7 @@ const addActivity = activity => {
 const modifyActivity = activity => {
   mockedData[findActivityIndex(activity)] = activity;
 };
-const deleteActivity = activityID => mockedData.splice(findActivityIndexByID(activityID), 1);
+const deleteActivity = activityID => mockedData.splice(findActivityIndex(activityID), 1);
 
 module.exports = {
   findActivityIndex,
