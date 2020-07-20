@@ -3,21 +3,23 @@ const axios = require('axios');
 const MockAdapter = require('axios-mock-adapter');
 const mockedAxios = new MockAdapter(axios);
 
-const activities = [];
+const config = require('../config.json');
 
-const mockRequests = items => {
+const mockedData = [];
+
+const mockRequests = () => {
   // reset the mock and the mock the requests again
   mockedAxios.reset();
 
   // all activities
-  mockedAxios.onGet('/activities')
-    .reply(200, { activities: items });
+  mockedAxios.onGet(`${config.api_url}/activities`)
+    .reply(200, { activities: mockedData });
 
   // add an activity
   mockedAxios.onPost('/activities')
     .reply(201);
 
-  items.forEach(item => {
+  mockedData.forEach(item => {
     // get activity
     mockedAxios.onGet(`/activities/${item['_id']}`)
       .reply(200, { activity: item });
@@ -36,16 +38,16 @@ const mockRequests = items => {
   });
 };
 
-const findActivityIndex = activity => activities.findIndex(a => a['_id'] === activity['_id']);
-const findActivityIndexByID = activity => activities.findIndex(a => a['_id'] === activity['_id']);
+const findActivityIndex = activity => mockedData.findIndex(a => a['_id'] === activity['_id']);
+const findActivityIndexByID = activity => mockedData.findIndex(a => a['_id'] === activity['_id']);
 
-const getActivities = () => activities;
-const getActivity = activityID => activities.find(a => a['_id'] === activityID);
-const addActivity = activity => activities.push(activity);
+const getActivities = () => mockedData;
+const getActivity = activityID => mockedData.find(a => a['_id'] === activityID);
+const addActivity = activity => mockedData.push(activity);
 const modifyActivity = activity => {
-  activities[findActivityIndex(activity)] = activity;
+  mockedData[findActivityIndex(activity)] = activity;
 };
-const deleteActivity = activityID => activities.splice(findActivityIndexByID(activityID), 1);
+const deleteActivity = activityID => mockedData.splice(findActivityIndexByID(activityID), 1);
 
 module.exports = {
   findActivityIndex,
