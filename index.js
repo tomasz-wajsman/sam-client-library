@@ -19,7 +19,6 @@ class SamClient {
   }
 
   static checkActivityDetails(activityDetails) {
-    console.log(activityDetails)
     const name = activityDetails.name;
     const category = activityDetails.category;
     const startDate = activityDetails.start_date;
