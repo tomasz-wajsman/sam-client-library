@@ -24,7 +24,7 @@ const mockRequests = () => {
         `${config.api_url}/activities`,
         { activity: example }
       )
-      .reply(201);
+      .reply(201, { activity: example });
   });
   mockedAxios
     .onPost('/activities')
