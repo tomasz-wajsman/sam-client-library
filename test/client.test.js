@@ -22,7 +22,7 @@ describe('Client tests', () => {
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
       const response = await client.createActivity(item);
-      assert.equal(response, true, 'The activity was not inserted');
+      assert.deepEqual(response, item, 'The activity was not inserted');
       // modify in mock
       mock.addActivity(item);
     }
