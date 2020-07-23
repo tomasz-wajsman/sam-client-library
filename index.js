@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 const axios = require('axios');
 
 require('./config.js').configure();
@@ -62,7 +63,7 @@ class SamClient {
         { activity: activityDetails }
       );
       if (response.status === 201) {
-        return true;
+        return response.data.activity;
       }
     }
     return false;
